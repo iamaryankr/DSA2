@@ -48,6 +48,49 @@ int pow(int m,int n){
     else return pow(m,n-1)*m;
 }
 
+int erec(int x, int n){  //taylors series using recursion
+    static int p=1,f=1;
+    int r ;
+    if(n==0) return 1;
+    else {
+        r=erec(x,n-1);
+        p=p*x;
+        f=f*n;
+        return r+p/f ;
+    }
+}
+int eloop(int x, int n){ //taylors using horners rule or loops
+    int s=1;
+    while(n>0){
+         s= 1+(x/n)*s ;
+         n--;
+     }
+    return s;
+}
+int fibr(int n){
+    if(n==1) return 0;
+    if(n==2) return 1;
+    else return fibr(n-1)+fibr(n-2);
+}
+int F[10]; //fibonacci using a global array also called as memoization:
+int fib(int n){
+    if(n<=1){
+        F[n]=n;
+        return n;
+    }
+    else{
+        if(F[n-2]==-1) F[n-2]=fib(n-2);
+        if(F[n-1]==-1) F[n-1]=fib(n-1);
+        return F[n-1]+F[n-2];
+    }
+}
+void TOH(int n, int A,int B, int C){
+    if(n>0){
+        TOH(n-1,A,C,B);
+        cout<<A<<" "<<C<<endl;
+        TOH(n-1,B,A,C);
+    }
+}
 
 int main(){
     //func(7);
@@ -56,6 +99,11 @@ int main(){
     //funA(5);
     //cout<<fun4(95);
     //cout<<sumn(10);
-    cout<<pow(3,0);
-
+    //cout<<pow(3,4);
+    //cout<<eloop(6 ,3);
+    //cout<<eloop(6,3);
+    //cout<<fib(5);
+    //for(int i=0;i<10;i++) F[i]=-1;
+    //cout<<fib(6);
+    TOH(3,1,2,3);
 }
