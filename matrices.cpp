@@ -228,7 +228,7 @@ class Sparse{
       }
       Sparse operator+(Sparse &s);
       friend istream & operator >>(istream & is, Sparse &s);
-      friend ostream & operator <<(istream & os, Sparse &s);
+      friend ostream & operator <<(ostream & os, Sparse &s);
       ~Sparse(){
         delete [] ele;
       }    
