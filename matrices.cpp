@@ -242,7 +242,7 @@ Sparse Sparse:: operator+(Sparse &s){
         if(ele[i].i<s.ele[j].i){
             sum->ele[k++]=ele[i++];
         }
-        else if(ele[i].i<s.ele[j].i){
+        else if(ele[i].i>s.ele[j].i){
             sum->ele[k++]=s.ele[j++];
         }
         else{
@@ -251,8 +251,8 @@ Sparse Sparse:: operator+(Sparse &s){
             else if(ele[i].j>s.ele[j].j)
                 sum->ele[k++]=s.ele[j++];
             else{
-            sum->ele[k]=ele[i];
-            sum->ele[k++].x=ele[i++].x+s.ele[j++].x;
+            sum->ele[k]=ele[i]; //for matrix
+            sum->ele[k++].x=ele[i++].x+s.ele[j++].x; //for array
             }
         }
     }
@@ -274,7 +274,7 @@ ostream &operator << (ostream &os, Sparse &s){
     int k=0;
     for(int i=0;i<s.m;i++){
         for(int j=0;j<s.n;j++){
-            if(s.ele[k].i==i && s.ele[k++].j==j)
+            if(s.ele[k].i==i && s.ele[k].j==j)
                  cout<<s.ele[k++].x<<" ";
             else 
                  cout<<"0 ";
@@ -321,6 +321,16 @@ int main(){
     cm.SetColumnMajor(4, 4, 10);
  
     cm.Display(false);
+
+    Sparse s1(5,5,5);
+    Sparse s2(5,5,5);
+    cin>>s1;
+    cin>>s2;
+    Sparse sum=s1+s2;
+    cout<<"First Matrix"<<endl<<s1;
+    cout<<"Second MAtrix"<<endl<<s2;
+    cout<<"Sum Matrix"<<endl<<sum;
+    return 0;
  
 
 }
