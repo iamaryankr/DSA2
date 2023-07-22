@@ -27,6 +27,10 @@ class LinkedList{
         bool isSorted();
         void RemoveDuplicate();
         void Reverse1();
+        void Reverse2();
+        void Reverse3(Node *p,Node *q);
+        void Merge(Node *q);
+        int isLoop();
 
 
 };
@@ -187,7 +191,6 @@ void LinkedList:: Reverse1(){
     Node *p=first;
     Node *q=p;
     A=new int[countNodes()];
-    A=(int *)malloc(sizeof(int)*countNodes(p));
     while(q){
         A[i]=q->data;
         q=q->next;
@@ -200,4 +203,187 @@ void LinkedList:: Reverse1(){
         q=q->next;
         i--;
     }
+}
+
+void LinkedList:: Reverse2(){
+    Node *q=NULL,*r=NULL;
+    Node *p=first;
+    while(p){
+        r=q;
+        q=p;
+        p=p->next;
+        q->next=r; //for reversing links
+    }
+    first=q;
+}
+
+void LinkedList:: Reverse3(Node *p,Node *q){
+    if(p){
+        Reverse3(p,p->next);
+        p->next=q;
+    }
+    else 
+        first=q;
+}
+
+void LinkedList:: Merge(Node *q){
+    Node *p= first;
+    Node *last,*third;
+    if(p->data < q-> data){
+        third = last = p;
+        p=p->next;
+        third->next=NULL;
+    }
+    else{
+        third = last = q;
+        q=q->next;
+        third->next = NULL;
+    }
+    while(p  && q){
+        if(p->data < q->data){
+            last -> next = p;
+            last=p;
+            p=p->next;
+            last->next=NULL;
+        }
+        else{
+            last -> next = q;
+            last=q;
+            q=q->next;
+            last->next=NULL;
+        }
+    }
+    if(p) last->next=p;
+    if(q) last->next=q;
+
+}
+
+int LinkedList:: isLoop(){
+    Node *p,*q;
+    p=q=first;
+    do{
+        p=p->next;
+        q=q->next;
+        if(q) q=q->next;
+        else q=NULL;
+    }
+    while (p && q && p!=q);
+    if(p==q) return 1;
+    else return 0;
+}
+
+class CircularLL{
+    private:
+        Node *head;
+    public:
+        CircularLL(int A[],int n);
+        void Display();
+        void Rdisplay(Node *p);
+        Node * getHead(){ return head; }
+        ~CircularLL();
+        void Insert(int pos,int x);
+        int Delete(int pos);
+
+};
+CircularLL::CircularLL(int *A,int n){
+    Node* t;
+    Node* tail;
+    head = new Node;
+    head->data = A[0];
+    head->next = head;
+    tail = head;
+    for(int i=1;i<n;i++){
+        t=new Node;
+        t->data = A[i];
+        t->next= tail->next;
+        tail->next = t;
+        tail=t;
+    }
+}
+void CircularLL:: Display(){
+    Node *p = head;
+    do{
+        cout<<p->data<<" -> " <<flush;
+        p=p->next;
+    }
+    while(p!=head);
+    cout<<endl;
+}
+void CircularLL:: Rdisplay(Node* p){
+    static int flag=0;
+    if(p!=head || flag==0){
+        flag =1 ;
+        cout<<p->data <<" -> "<<flush;
+        Rdisplay(p->next);
+    }
+    flag = 0;
+}
+CircularLL:: ~CircularLL(){
+    Node *p=head;
+    while(p->next != head)  p=p->next;
+    while(p!=head){
+        p->next = head->next;
+        delete head;
+        head= p->next;
+    }
+    if(p==head){
+        delete head;
+        head= nullptr;
+    }
+}
+void CircularLL:: Insert(int pos,int x){
+    Node *t,*p;
+    if(pos==0){
+        t=new Node;
+        t->data=x;
+        if(head==NULL){
+            head =t ;
+            head->next=head;
+        }
+        else{
+            p=head;
+            while(p->next!=head){
+                p=p->next;
+            }
+            p->next;
+            t->next=head;
+            head=t;
+        }
+    }
+    else{
+        for(int i=0;i<pos-1;i++) 
+            p=p->next;
+        t=new Node;
+        t->data=x;
+        t->next=p->next;
+        p->next=t;
+    }
+}
+int CircularLL:: Delete(int pos){
+    Node *p;
+    int i,x;
+    if(pos==0){
+        while(p->next!=head)
+            p=p->next;
+        x=head->data;
+        if(head==p){
+            free(head);
+            head=NULL;
+        }
+        else{
+            p->next=head->next;
+            free(head);
+            head=p->next;
+        }
+    }
+    else{
+        Node *q;
+        for(int i=0;i<pos-1;i++)
+            p=p->next;
+            q=p->next;
+            p->next=q->next;
+            x=q->data;
+            free(q); 
+    }
+    return x;
 }
