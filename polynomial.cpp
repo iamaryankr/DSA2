@@ -35,7 +35,7 @@ class Polynomial{
             return os;
         }
  
-    friend Polynomial operator+(Polynomial p){
+    Polynomial operator+(Polynomial p){
         int i, j, k;
         i = j = k = 0;
         Polynomial *sum = new Polynomial(n + p.n);

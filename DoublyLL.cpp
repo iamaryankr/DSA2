@@ -12,7 +12,7 @@ class DoublyLL{
         Node *head;
     public:
         DoublyLL();
-        DoublyLL(int A[],int n);
+        DoublyLL(int *A,int n);
         ~DoublyLL();
         void Display();
         int length();
