@@ -85,7 +85,7 @@ int Stack:: StackTop(){
     }
 }
 
-
+//stack using LinkedList
 class Node{
     public:
         int data;
