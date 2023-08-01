@@ -56,7 +56,7 @@ class LTMatrix{
 };
 void LTMatrix:: SetRowMajor(int i,int j,int x){
     if(i>=j){
-        int index = ((i*(i-1))/2)+ j-1;
+        int index = ((i*(i-1))/2)+ (j-1);
         A[index]=x;
     }
 }
@@ -134,15 +134,15 @@ void LTMatrix:: Display(bool row){
     }
  }
  int TriDiagonalMatrix:: Get(int i,int j){
-    if(i-j==1){
+    if(i-j==1){    //lower diagonal
         int index = i-1;
         return A[index];
     }
-    if(i-j==0){
+    if(i-j==0){    //main diagonal
         int index = n+i-2;
         return A[index];
     }
-    if(i-j==-1){
+    if(i-j==-1){   //upper diagonal
         int index = 2*n+i-2;
         return A[index];
     }
@@ -165,10 +165,10 @@ void LTMatrix:: Display(bool row){
 //Toeplitz Matrix
 class Toeplitz{
     private:
-       int n;
-       int *A;
+         int n;
+         int *A;
     public:
-       Toeplitz(int n){
+         Toeplitz(int n){
             this->n=n;
             A=new int [2*n-1];
          }

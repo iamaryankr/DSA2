@@ -1,4 +1,5 @@
 #include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 class Node{
@@ -24,7 +25,9 @@ class BST{
         Node *Delete(Node*p, int key);
         int height(Node *p);
         Node *inPre(Node *p);  //inorder predecessor
-        Node *inSucc(Node *p); //inorder succecessor
+        Node *inSucc(Node *p); //inorder succecessor\
+
+        void CreateFromPreorder(int *pre,int n);
 
 };
 
@@ -150,6 +153,46 @@ Node *BST:: inSucc(Node *p){
     return p;
 }
 
+void BST:: CreateFromPreorder(int *pre, int n){
+    int i=0;
+    root=new Node;
+    root->data = pre[i++];
+    root->lchild = nullptr;
+    root->rchild = nullptr;
+
+    Node *t;
+    Node *p= root;
+    stack <Node*> stk;
+
+    while(i<n){
+        if(pre[i] < p->data){
+            t= new Node;
+            t->data = pre[i++];
+            t->lchild = nullptr;
+            t->rchild = nullptr;
+            p->lchild = t;
+            stk.push(p);
+            p=t;
+        }
+        else{
+            if(pre[i] > p->data && pre[i] < stk.empty() ? 32767:stk.top()->data){
+                t= new Node;
+                t->data = pre[i++];
+                t->lchild = nullptr;
+                t->rchild = nullptr;
+                p->rchild = t;
+                stk.push(p);
+                p=t;
+            }
+            else{
+                p=stk.top();
+                stk.pop();
+            }
+        }
+    }
+
+}
+
 int main() {
  
     BST bst;
@@ -209,6 +252,15 @@ int main() {
     // Delete
     bs.Delete(bs.Getroot(), 7);
     bs.inorder(bs.Getroot());
+
+    // BST from Preorder traversal
+    cout << "BST from Preorder: " << flush;
+    int pre[] = {30, 20, 10, 15, 25, 40, 50, 45};
+    int n = sizeof(pre)/sizeof(pre[0]);
+    BST b;
+    b.CreateFromPreorder(pre, n);
+    b.inorder(b.Getroot());
+    cout << endl;
     
     return 0;
 }
