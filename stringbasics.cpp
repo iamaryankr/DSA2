@@ -6,7 +6,6 @@ int main(){
     char S1[50]="Hello",S2[50]="hello";
     string str="aryan";
     string str5="";
-
     //string class
     cout<<str.length();
     cout<<str.append("hi");
@@ -21,7 +20,7 @@ int main(){
 
    //string operations
    string s1= "Hello", s2="_World";
-   string s3=s1+s2;
+   string s3=s1+s2; 
    cout<<s3;
    s2=s1;
    cout<<s2;
