@@ -213,17 +213,17 @@ void Toeplitz:: Display(){
 //use of 3 column representation and compressed sparse row
 class Element{
     public:
-      int i;int j;int x;
+      int i; int j; int x;
 };
 class Sparse{
     private:
-      int m;int n;int num;
+      int m; int n; int num;
       Element *ele;
     public:
       Sparse(int m,int n,int num){
-        this-> m=m;
-        this-> n=n;
-        this-> num=num;
+        this-> m = m;
+        this-> n = n;
+        this-> num = num;
         ele=new Element[this->num];
       }
       Sparse operator+(Sparse &s);
@@ -236,10 +236,10 @@ class Sparse{
 Sparse Sparse:: operator+(Sparse &s){
     int i=0, j=0, k=0;
     if(m!=s.m || n!=s.n)  return Sparse(0,0,0);
-    Sparse *sum= new Sparse(m,n,num+s.num);
+    Sparse *sum = new Sparse(m,n,num+s.num);
     
     while(i<num && j<s.num){
-        if(ele[i].i<s.ele[j].i){
+        if(ele[i].i < s.ele[j].i){
             sum->ele[k++]=ele[i++];
         }
         else if(ele[i].i>s.ele[j].i){

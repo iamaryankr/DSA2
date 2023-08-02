@@ -1,214 +1,156 @@
 #include<iostream>
 using namespace std;
 
-class Node{
-    public:
-        Node *lchild;
-        int data;
-        Node *rchild;
-};
-class BST{
-    private:
-        Node *root;
-    public:
-        BST(){ root = nullptr; }
-        Node *Getroot(){ return root; }
-
-        void iInsert(int key);
-        Node *rInsert(Node *p, int key);
-
-        Node *iSearch(int key);
-        Node *rSearch(Node *p, int key);
-        
-        void inorder(Node *p);
-        Node *Delete(Node*p, int key);
-        int height(Node *p);
-        Node *inPre(Node *p);  //inorder predecessor
-        Node *inSucc(Node *p); //inorder succecessor
-
-};
-
-void BST::iInsert(int key){
-    Node *t = root;
-    Node *p;
-    Node *r;
-    if(root==nullptr){
-        p=new Node;
-        p->data = key;
-        p->lchild = nullptr;
-        p->rchild = nullptr;
-        root= p;
-        return ;
-    }
-    while(t!=nullptr){
-        r=t;
-        if(key < t->data)
-            t= t->lchild;
-        else if(key > t->data) 
-            t= t->rchild;
-        else return;
-    }
-    p=new Node;
-    p->data = key;
-    p->lchild = nullptr;
-    p->rchild = nullptr;
-
-    if(key < r->data)
-        r->lchild = p;
-    else
-        r->rchild = p;
-}
-Node *BST:: rInsert(Node *p, int key){
-    Node *t;
-    if(p==nullptr){
-        t= new Node;
-        t->data = key;
-        t->lchild = nullptr;
-        t->rchild = nullptr;
-        return t;
-    }
-    if(key < p->data)
-        p->lchild = rInsert(p->lchild, key);
-    else if(key > p->data)
-        p->rchild = rInsert(p->rchild, key);
-
-    return p;
-}
-
-Node *BST:: iSearch(int key){
-    Node *t = root;
-    while(t){
-        if(key == t->data) return t;
-        else if(key < t->data)  t=t->lchild;
-        else  t=t->rchild;
-    }
-    return nullptr;
-}
-Node *BST:: rSearch(Node *p, int key){
-    if(p==nullptr) return nullptr;
-    if(key==p->data) return p;
-    else if(key < p->data)
-        rSearch(p->lchild,key);
-    else
-        rSearch(p->rchild, key);
-}
-
-void BST:: inorder(Node *p){
-    if(p){
-        inorder(p->lchild);
-        cout<<p->data;
-        inorder(p->rchild);
-    }
-}
-
-Node *BST:: Delete(Node *p, int key){
-    Node *q;
-    if(p==nullptr) return nullptr;
-
-    if(p->lchild == nullptr && p->rchild == nullptr){
-        if(p==root){ root = nullptr; }
-        delete p;
-        return nullptr;
-    }
-    if(key < p->data)
-        p->lchild = Delete(p->lchild, key);
-    else if(key > p->data) 
-        p->rchild = Delete(p->rchild, key);
-    else{
-        if(height(p->lchild) > height(p->rchild)){
-            q= inPre(p->lchild);
-            p->data = q->data;
-            p->lchild = Delete(p->lchild, q->data);
-        }
-        else{
-            q= inSucc(p->rchild);
-            p->data = q->data;
-            p->rchild = Delete(p->rchild, q->data);
+template <class T>
+void Print(T& vec, int n, string s){
+    cout<<s << ": ["<<flush;
+    for(int i=0; i<n ; i++){
+        cout<< vec[i] << flush;
+        if(i < n-1){
+            cout<<", "<<flush;
         }
     }
-    return p;
+    cout<<"]"<<endl;
+}
+void Swap(int *x,int *y){
+    int temp = *x;
+    *x = *y;
+    *y = temp;
 }
 
-int BST:: height(Node *p){
-    int x,y;
-    if(p==nullptr) return 0;
-    x= height(p->lchild);
-    y= height(p->rchild);
-    return x>y ? x+1:y+1;
+//bubble sort
+void Bubblesort(int A[],int n){
+    int flag = 0;   //use of flag to make it adaptive
+    for(int i=0; i<n-1; i++){
+        for(int j=0; j<n-1-i; j++){
+            if(A[j] > A[j+1]){
+                Swap(&A[j], &A[j+1]);
+                flag = 1;
+            }
+        }
+        if (flag == 0) return ;
+    }
 }
 
-Node *BST::inPre(Node *p){
-    while(p && p->rchild){
-        p= p->rchild;
+//insertion sort
+void Insertionsort(int A[], int n){
+    for(int i=1; i<n; i++){
+        int j= i-1;
+        int x= A[i];
+        while(j>-1 && A[j]>x){
+            A[j+1] = A[j];
+            j--;
+        }
+        A[j+1]=x;
     }
-    return p;
 }
-Node *BST:: inSucc(Node *p){
-    while(p && p->lchild){
-        p= p->lchild;
+
+//selection sort
+void SelectionSort(int A[],int n){
+    for(int i=0; i<n-1; i++){
+        int j; int k ;
+        for(j=k=1; j<n; j++){
+            if(A[j] < A[k]) {
+                k=j;
+            }
+        }
+        Swap(&A[i], &A[k]);
     }
-    return p;
 }
+
+//Quick Sort
+int PartitionReursion(int A[],int low, int high){
+    int pivot = A[low];
+    int i = low; int j = high;
+    do{
+        do{
+            i++;
+        }
+        while(A[j] <= pivot);
+        do{
+            j--;
+        }
+        while(A[j] > pivot);
+
+        if(i < j){ Swap(&A[i], &A[j]);  }
+    }
+    while(i < j);
+
+    Swap(&A[low], &A[j]);
+    return j;
+}
+
+void QuickSortRecursion(int A[], int low, int high){
+    if(low < high){
+        int j = PartitionReursion(A,low,high);
+        QuickSortRecursion(A,low,j);
+        QuickSortRecursion(A,j+1,high);
+    }
+}
+
+
+int partition(int A[], int low, int high){
+    int pivot = A[low];
+    int i = low+1;
+    int j = high;
+
+    while(true){
+        while(i <= j && A[i] <= pivot){
+            i++;
+        }
+        while(i <= j && A[i] >= pivot){
+            j--;
+        }
+        if(j < i) break;
+        else Swap(&A[i], &A[j]);
+    }
+    Swap(&A[low], &A[j]);
+    return j;
+}
+
+void QuickSort(int A[], int low, int high){
+    if(low < high){
+        int p = partition(A, low, high);
+        QuickSort(A, low, p-1);
+        QuickSort(A, p+1, high);
+    }
+}
+
+
+
+
 
 int main() {
  
-    BST bst;
+    int A[] = {3, 7, 9, 10, 6, 5, 12, 4, 11, 2};
+    int n = sizeof(A)/sizeof(A[0]);
+    Print(A, n, "\t\tA");
  
-    // Iterative insert
-    bst.iInsert(10);
-    bst.iInsert(5);
-    bst.iInsert(20);
-    bst.iInsert(8);
-    bst.iInsert(30);
+    Bubblesort(A, n);
+    Print(A, n, " Sorted A");
+
+
+    int B[] = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1};
+    Print(B, sizeof(B)/sizeof(A[0]), "       B");
  
-    // Inorder traversal
-    bst.inorder(bst.Getroot());
+    Insertionsort(B, sizeof(B)/sizeof(B[0]));
+    Print(B, sizeof(B)/sizeof(B[0]), "Sorted B");
+
+
+    int C[] = {3, 7, 9, 10, 6, 5, 12, 4, 11, 2};
+    int n1 = sizeof(C)/sizeof(C[0]);
+    Print(C, n1, "\t\tC");
+ 
+    SelectionSort(C, n1);
+    Print(C, n1, " Sorted C");
+
+    int A1[] = {3, 7, 9, 10, 6, 5, 12, 4, 11, 2, 32767};
+    int n2 = sizeof(A1)/sizeof(A1[0]);
+    Print(A1, n2-1, "\t\tA");
+ 
+    QuickSortRecursion(A1, 0, n2-1);
+    Print(A1, n2-1, " Sorted A1");
     cout << endl;
  
-    // Iterative search
-    Node* temp = bst.iSearch(2);
-    if (temp != nullptr){
-        cout << temp->data << endl;
-    } else {
-        cout << "Element not found" << endl;
-    }
- 
-    // Recursive search
-    temp = bst.rSearch(bst.Getroot(), 20);
-    if (temp != nullptr){
-        cout << temp->data << endl;
-    } else {
-        cout << "Element not found" << endl;
-    }
- 
-    // Recursive insert
-    bst.rInsert(bst.Getroot(), 50);
-    bst.rInsert(bst.Getroot(), 70);
-    bst.rInsert(bst.Getroot(), 1);
-    bst.inorder(bst.Getroot());
-    cout << "\n" << endl;
- 
-    // Inorder predecessor and inorder successor
-    BST bs;
-    bs.iInsert(5);
-    bs.iInsert(2);
-    bs.iInsert(8);
-    bs.iInsert(7);
-    bs.iInsert(9);
-    bs.iInsert(1);
- 
-    temp = bs.inPre(bs.Getroot());
-    cout << "InPre: " << temp->data << endl;
- 
-    temp = bs.inSucc(bs.Getroot());
-    cout << "InSucc: " << temp->data << endl;
- 
-    bs.inorder(bs.Getroot());
-    cout << endl;
- 
-    // Delete
-    bs.Delete(bs.Getroot(), 7);
-    bs.inorder(bs.Getroot());
-    
     return 0;
 }
