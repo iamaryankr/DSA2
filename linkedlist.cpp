@@ -91,7 +91,8 @@ int LinkedList:: Maxdata(){
     int max= INT32_MIN;
     Node *p=first;
     while(p){
-        if(p->data > max)  max=p->data;
+        if(p->data > max)
+            max=p->data;
         p=p->next;
     }
     return max;
@@ -108,7 +109,7 @@ Node LinkedList:: LSearch(int key){
 
 int LinkedList:: length(){
     Node *p=first;
-    int len;
+    int len=0;
     while(p){
         len++;
         p=p->next;
@@ -191,7 +192,7 @@ void LinkedList:: Reverse1(){
     int *A, i=0;
     Node *p=first;
     Node *q=p;
-    A=new int[countNodes()];
+    A=new int[length()];
     while(q){
         A[i]=q->data;
         q=q->next;
