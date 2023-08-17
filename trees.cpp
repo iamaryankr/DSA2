@@ -153,6 +153,7 @@ int Tree:: height(Node *p){
     if(l>r) return l+1;
     else return r+1;
 }
+
 void Tree::iterativeInorder(Node *p){
     stack<Node *> stk;
     while(p!=nullptr || !stk.empty()){
@@ -183,7 +184,7 @@ Node* Tree:: generatefromtraversal(int *inorder,int *preorder,int instart,int in
     Node *n =new Node(preorder[preindex]++);
     if(instart== inend) return n;
 
-    int splitindex= searchInorder(inorder,instart,inend,n->data);
+   int  splitindex= searchInorder(inorder,instart,inend,n->data);
     n->lchild=generatefromtraversal(inorder,preorder,instart,splitindex-1);
     n->rchild=generatefromtraversal(inorder,preorder,splitindex+1,inend);
 

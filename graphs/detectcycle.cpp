@@ -1,39 +1,31 @@
 #include<bits/stdc++.h>
 using namespace std;
+//detecting undirected graph cycle
 class Soln{
 public:
-    //using bfs detecting a cycle
     bool detect(int src, vector<int> adj[], int vis[]){
          vis[src] = 1; 
-      // store <source node, parent node>
       queue<pair<int,int>> q; 
       q.push({src, -1}); 
-      // traverse until queue is not empty
       while(!q.empty()) {
           int node = q.front().first; 
           int parent = q.front().second; 
           q.pop(); 
           
-          // go to all adjacent nodes
           for(auto adjacentNode: adj[node]) {
-              // if adjacent node is unvisited
               if(!vis[adjacentNode]) {
                   vis[adjacentNode] = 1; 
                   q.push({adjacentNode, node}); 
               }
-              // if adjacent node is visited and is not it's own parent node
               else if(parent != adjacentNode) {
-                  // yes it is a cycle
                   return true; 
               }
           }
       }
-      // there's no cycle
       return false; 
   }
 
-    bool isCycle(int V, vector<int> adj[]) {
-               // initialise them as unvisited 
+    bool isCyclebfs(int V, vector<int> adj[]) {
         int vis[V] = {0};
         for(int i = 0;i<V;i++) {
             if(!vis[i]) {
@@ -43,8 +35,7 @@ public:
         return false; 
         
     }
-
-    //using dfs detecting a cycle
+//detecting using dfs
     bool dfs(int node, int parent, int vis[], vector<int> adj[]){
         vis[node]= 1;
         for(auto it: adj[node]){
@@ -55,7 +46,7 @@ public:
         }
         return false;
     }
-    bool iscycle(int v, vector<int> adj[]){
+    bool iscycledfs(int v, vector<int> adj[]){
         int vis[v] = {0};
         for(int i=0 ;i<v; i++){
             if(!vis[i]){
@@ -65,4 +56,37 @@ public:
         return false;
     }
     
+};
+
+
+//detecting directed graph cycle
+
+class Sol{
+public:
+     bool dfs(vector<int> adj[], vector<int> vis, vector<int> pathvis, int node){
+        pathvis[node] = 1;
+        vis[node] = 1;
+        for(auto it: adj[node]){
+            if(!vis[it]) {
+                if (dfs(adj, vis, pathvis, it)==true) return true;
+            }
+            else if(pathvis[it]) return true;
+        }
+        pathvis[node] = 0;
+        return false;
+    }
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<int> vis(V, 0);
+        vector<int> pathvis(V, 0);
+        
+        for(int i=0; i<V ;i++){
+            if(!vis[i]){
+                if(dfs(adj, vis, pathvis, i)==true) return true;
+            }
+        }
+        return false;
+    }
+    
+    //using bfs(KHAN's ALGO)
+    //if(topo.size()== n) then there is no cycle else there exists a cycle
 };
