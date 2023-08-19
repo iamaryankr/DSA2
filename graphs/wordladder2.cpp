@@ -6,7 +6,7 @@
         
         unordered_set<string> st(wordList.begin(), wordList.end());
         
-        queue<vector<string>> q;
+        queue<vector<string>> q; 
 
         q.push({beginWord});
 
