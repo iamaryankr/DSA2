@@ -1,17 +1,18 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+//distance of nearest 1
 class solution{
     public:
         vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int n = mat.size(); int m = mat[0].size();
         vector<vector<int>> ans(n, vector<int> (m,0));
-        vector<vector<int>> vis(n, vector<int> (n,0));
+        vector<vector<int>> vis(n, vector<int> (m,0));
         queue<pair<pair<int,int>,int>> q;
 
         for(int i=0 ;i<n ;i++){
             for(int j=0 ;j<m ;j++){
-                if(mat[i][j]==0){
+                if(mat[i][j]==1){
                     q.push({{i,j},0});
                     vis[i][j]=1;
                 }
