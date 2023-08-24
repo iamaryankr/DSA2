@@ -60,7 +60,6 @@ public:
 
 
 //detecting directed graph cycle
-
 class Sol{
 public:
      bool dfs(vector<int> adj[], vector<int> vis, vector<int> pathvis, int node){
@@ -70,7 +69,7 @@ public:
             if(!vis[it]) {
                 if (dfs(adj, vis, pathvis, it)==true) return true;
             }
-            else if(pathvis[it]) return true;
+            else if(pathvis[it]==1) return true;
         }
         pathvis[node] = 0;
         return false;
