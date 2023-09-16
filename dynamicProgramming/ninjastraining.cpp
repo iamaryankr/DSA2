@@ -48,7 +48,7 @@ class sol1{
                     if(task!= last){
                         int point = points[day][task] + dp[day-1][task];
                         dp[day][last] = max(dp[day][last], point);
-
+ 
                     }
                 }
             }

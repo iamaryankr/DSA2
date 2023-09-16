@@ -5,11 +5,9 @@ class minsumpositive{
     //using our tabulation from subset =k
     int minSubsetSumDifference(vector < int > & arr, int n) {
         int totSum = 0;
-
         for (int i = 0; i < n; i++) {
             totSum += arr[i];
         }
-
         vector < vector < bool >> dp(n, vector < bool > (totSum + 1, false));
 
         for (int i = 0; i < n; i++) {
@@ -47,7 +45,7 @@ class minsumpositive{
             return dp[ind][target]=true;
 
         if (ind == 0)
-            return dp[ind][target] = arr[0] == target;
+            return (dp[ind][target] = arr[0])==target;
 
         if (dp[ind][target] != -1)
             return dp[ind][target];
@@ -61,7 +59,7 @@ class minsumpositive{
         return dp[ind][target] = notTaken || taken;
 }
 
-int minSubsetSumDifference(vector < int > & arr, int n) {
+    int minSubsetSumDifference(vector<int>& arr, int n) {
 
         int totSum = 0;
 
@@ -69,7 +67,7 @@ int minSubsetSumDifference(vector < int > & arr, int n) {
             totSum += arr[i];
         }
 
-        vector < vector < int >> dp(n, vector < int > (totSum + 1, -1));
+        vector<vector<int>> dp(n, vector<int>(totSum + 1, -1));
 
         for (int i = 0; i <= totSum; i++) {
             bool dummy = subsetSumUtil(n - 1, i, arr, dp);

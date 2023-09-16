@@ -42,7 +42,7 @@ public:
             if(!vis[it]){
                 if(dfs(it, node, vis, adj)==true) return true;
             }
-            else if(it != parent ) return true;
+            else if(it != parent) return true;
         }
         return false;
     }
