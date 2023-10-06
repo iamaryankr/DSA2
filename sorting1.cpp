@@ -137,7 +137,16 @@ void Merge(int A[], int low, int mid, int high){
         A[i] = B[i];
     }
 }
+void RecursiveMergeSort(int A[], int low, int high){
+    if(low < high){
+        int mid = low+(high-low)/2;
 
+        RecursiveMergeSort(A, low, mid);
+        RecursiveMergeSort(A, mid+1, high);
+
+        Merge(A, low, mid, high);
+    }
+}
 void IterativeMergeSort(int A[], int n){  //o(nlogn)
     int p;
     for(p=2; p<=n; p=p*2){
@@ -152,16 +161,7 @@ void IterativeMergeSort(int A[], int n){  //o(nlogn)
         Merge(A, 0, p/2-1, n-1);
     }
 }
-void RecursiveMergeSort(int A[], int low, int high){
-    if(low < high){
-        int mid = low+(high-low)/2;
 
-        RecursiveMergeSort(A, low, mid);
-        RecursiveMergeSort(A, mid+1, high);
-
-        Merge(A, low, mid, high);
-    }
-}
 
 //countSort O(m+n)
 int Max(int A[], int n){

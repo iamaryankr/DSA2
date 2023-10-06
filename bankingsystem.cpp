@@ -1,3 +1,10 @@
+/* I built a complete Banking System, 
+in which people can build an account , 
+deposit money, withdraw money , get enquiry, etc.. 
+I built this using my complete inDepth knowledge of C++,
+i have great command on Object oriented programming, 
+and various data structures in the language. 
+I used text files and various concepts of OOPS to create my project. */
 #include<iostream>
 #include<fstream>
 #include<cstdlib>
