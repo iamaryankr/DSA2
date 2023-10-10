@@ -23,10 +23,7 @@ public:
             int ncol = delcol[i] + col;
             if(board[nrow][ncol]==word[ind+1] && nrow<n && nrow>=0 
             && ncol<m && ncol>=0){
-                char temp = board[nrow][ncol];
-                board[nrow][ncol] = '#'; 
-                found = func(board, word, nrow, ncol, ind+1);
-                board[nrow][ncol] = temp;
+                found = found || func(board, word, nrow, ncol, ind+1);
             }   
         }
         return found;
@@ -42,8 +39,53 @@ public:
         return false;
     }
 };
+//correct version of my solution
+class Solution {
+public:
+    bool isValid(int row, int col, int n, int m) {
+        return row >= 0 and row < n and col >= 0 and col < m;
+    }
+    
+    bool findWord(int row, int col, int ind, vector<vector<char>> &grid, 
+            vector<vector<bool>> &vis, string &word) {
+        if (ind == word.size()) {
+            return true;
+        }
+        int n = grid.size();
+        int m = grid[0].size();
+        if (!isValid(row, col, n, m) or word[ind] != grid[row][col]
+        or vis[row][col])  return false;
+        
+        vis[row][col] = true;
+        int delrow[4] = {-1, 0, 1, 0};
+        int delcol[4] = {0, 1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int nRow = row + delrow[i];
+            int nCol = col + delcol[i];
+            
+            bool isPossible = findWord(nRow, nCol, ind+1, grid, vis, word);  
+            if (isPossible) return true;
+        }
+        
+        return vis[row][col] = false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size();
+        int m = board[0].size();
+        vector<vector<bool>> vis(n, vector<bool>(m));
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (findWord(i, j, 0, board, vis, word)) 
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+};
 
-//correct solution
+//correct solution method-II
 class Solution {
 public:
     bool DFS(vector<vector<char>>& board, string word, int i, int j, int n) {
