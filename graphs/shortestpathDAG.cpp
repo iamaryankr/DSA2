@@ -2,69 +2,43 @@
 using namespace std;
 
 class Solution {
-  private:
-    void topoSort(int node, vector < pair < int, int >> adj[],
-      int vis[], stack < int > & st) {
-      //This is the function to implement Topological sort. 
-      vis[node] = 1;
-      for (auto it: adj[node]) {
-        int v = it.first;
-        if (!vis[v]){
-          topoSort(v, adj, vis, st);
-        }
-      }
-      st.push(node);
-    }
   public:
-    vector < int > shortestPath(int N, int M, vector < vector < int >> & edges) {
-
-      //We create a graph first in the form of an adjacency list.
-      vector < pair < int, int >> adj[N];
-      for (int i = 0; i < M; i++) {
-        int u = edges[i][0];
-        int v = edges[i][1];
-        int wt = edges[i][2];
-        adj[u].push_back({v, wt}); 
-      }
-      // A visited array is created with initially 
-      // all the nodes marked as unvisited (0).
-      int vis[N] = {
-        0
-      };
-      //Now, we perform topo sort using DFS technique 
-      //and store the result in the stack st.
-      stack < int > st;
-      for (int i = 0; i < N; i++) {
-        if (!vis[i]) {
-          topoSort(i, adj, vis, st);
+  //shortest path using toposort as it is directed graph
+    void toposort(int node, vector<int> &vis, vector<pair<int,int>> adj[],
+    stack<int> &stk){
+        vis[node] = 1;
+        for(auto it: adj[node]){
+            if(!vis[it.first]) toposort(it.first, vis, adj, stk);
         }
-      }
-      //Further, we declare a vector ‘dist’ in which we update the value of the nodes’
-      //distance from the source vertex after relaxation of a particular node.
-
-      vector < int > dist(N);
-      for (int i = 0; i < N; i++) {
-        dist[i] = 1e9;
-      }
-
-      dist[0] = 0;
-      while (!st.empty()) {
-        int node = st.top();
-        st.pop();
-
-        for (auto it: adj[node]) {
-          int v = it.first;
-          int wt = it.second;
-
-          if (dist[node] + wt < dist[v]) {
-            dist[v] = wt + dist[node];
-          }
+        stk.push(node);
+    }
+     vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+        vector<pair<int,int>> adj[N];
+        for(auto it: edges){
+            int u = it[0], v = it[1], wt = it[2];
+            adj[u].push_back({v, wt});
         }
-      }
-
-      for (int i = 0; i < N; i++) {
-        if (dist[i] == 1e9) dist[i] = -1;
-      }
-      return dist;
+        vector<int> vis(N, 0);
+        stack<int> stk;
+        for(int i=0; i<N; i++){
+            if(!vis[i]) toposort(i, vis, adj, stk);
+        }
+        
+        vector<int> dist(N, 1e9);
+        dist[0] = 0;
+        while(!stk.empty()){
+            int node = stk.top();
+            stk.pop();
+            for(auto it: adj[node]){
+                int u = it.first, wt = it.second;
+                if(dist[node]+wt < dist[u]){
+                    dist[u] = dist[node]+wt;
+                }
+            }
+        }
+        for(int i=0; i<N; i++){
+            if(dist[i]==1e9) dist[i] = -1;
+        }
+        return dist;
     }
 };

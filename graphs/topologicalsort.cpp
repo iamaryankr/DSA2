@@ -10,8 +10,7 @@ class Solution
 	        if(!vis[x]){
 	            dfs(x, adj, vis, stk);
 	           
-	        }
-	        
+	        } 
 	    }
 	    stk.push(node); 
 	}

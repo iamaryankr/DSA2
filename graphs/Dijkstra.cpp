@@ -5,7 +5,7 @@ class DijkstraUsingPQ{
 public:
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-        
+        //implementing a priority queue in cpp
         priority_queue< pair<int,int> , vector<pair<int,int>>, greater<pair<int,int>>> pq;
         vector<int> dist(V);
         for(int i=0; i<V; i++) dist[i] = 1e9;
