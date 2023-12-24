@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/DSA",
-      "program": "d:/DSA/build/Debug/outDebug",
+      "cwd": "c:/Users/ACER/OneDrive/Documents/GitHub/DSA2",
+      "program": "c:/Users/ACER/OneDrive/Documents/GitHub/DSA2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
