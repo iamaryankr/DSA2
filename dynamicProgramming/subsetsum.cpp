@@ -8,8 +8,7 @@ public:
         if(target==0) return true;
         if(i==0) return (arr[0]==target);
         if(dp[i][target]!= -1) return dp[i][target];
-        
-
+    
         bool nottake = f(i-1, target, arr, dp);
         bool take = false;
         if(arr[i]<= target) take = f(i-1, target-arr[i],arr, dp);
@@ -22,7 +21,7 @@ public:
 
 }
     //tabulation
-    bool subsetSumToK(int n, int k, vector<int> &arr) {
+bool subsetSumToK(int n, int k, vector<int> &arr) {
     vector<vector<bool>> dp(n, vector<bool> (k+1, 0));
     for(int i=0; i<n; i++){
         dp[i][0] = true;
